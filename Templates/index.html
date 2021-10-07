@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet"/>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <title>Index</title>
+    <style>
+        body, html {
+            margin: 0;
+            scroll-behavior:smooth;
+            background:#f8f8f0;
+        }
+        ::-webkit-scrollbar{
+            width:0px;
+            height:0px;
+        }
+        ::-webkit-scrollbar-track{
+            background:#f8f8f0;
+        }
+        ::-webkit-scrollbar-thumb{
+            background:black;
+            border-radius:3vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 m-4 mb-0">
+                <div class="alert alert-danger text-center h5" role="alert">
+                   Curd Project
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 m-4 mt-0">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="alert alert-info text-center h5" role="alert">
+                            Add New Student
+                        </div>
+                        {% if data %}
+                        <form action="/update_student/" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% for d in data %}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Id:</label>
+                                <input type="text" class="form-control" id="id" name="s_id" value="{{d.id}}" readonly required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name:</label>
+                                <input type="text" class="form-control" id="name" name="s_name" value="{{d.name}}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" class="form-control" id="email" name="s_email" value="{{d.email}}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="password" class="form-control" id="password" name="s_password" value="{{d.password}}" required>
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-success" type="submit" name="submit">Update Student</button>
+                            </div>
+                            {% endfor %}
+                        </form>
+                        {% else %}
+                        <form  action="/add_student/" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name:</label>
+                                <input type="text" class="form-control" id="name" name="s_name"  required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" class="form-control" id="email" name="s_email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="password" class="form-control" id="password" name="s_password" required>
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-success" type="submit" name="submit">Add Student</button>
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="alert alert-primary text-center h5" role="alert">
+                            Show Student Information
+                        </div>
+                        <div>
+                            {% if value %}
+                            <table class="table table-hover table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Password</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for v in value %}
+                                    <tr>
+                                        <th scope="row">{{v.id}}</th>
+                                        <td>{{v.name}}</td>
+                                        <td>{{v.email}}</td>
+                                        <td>{{v.password}}</td>
+                                        <td><center><a href="/?id={{v.id}}&page=edit" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a></center></td>
+                                        <td><center><a href="/?id={{v.id}}&page=dlt" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a></center></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
